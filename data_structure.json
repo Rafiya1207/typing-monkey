@@ -1,4 +1,3 @@
 {
-  "Name": "username",
-  "password": "12345"
+  "username123": { "name": "username", "password": "12345" }
 }
