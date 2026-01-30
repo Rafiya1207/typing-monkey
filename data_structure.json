@@ -1,3 +1,13 @@
 {
-  "username123": { "name": "username", "password": "12345" }
+  "users": {
+    "username123": { "name": "username", "password": "12345" }
+  },
+  "request": {
+    "command": "CREATE",
+    "data": {
+      "userName": "someone",
+      "password": "12345",
+      "userId": "someone123"
+    }
+  }
 }
