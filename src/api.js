@@ -28,3 +28,12 @@ export const createUser = (users, request) => {
     userName: users[request.userId].userName,
   });
 };
+
+const getRandomNumber = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+export const fetchPara = (paragrapghs) => {
+  const randomNumber = getRandomNumber(0, paragrapghs.length);
+  return createSuccessResponse(paragrapghs[randomNumber]);
+};

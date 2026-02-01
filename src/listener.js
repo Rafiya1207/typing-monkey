@@ -18,7 +18,7 @@ const router = (users, command, args) => {
 
 const handler = async (users, conn) => {
   const buffer = new Uint8Array(1024);
-  const request = readFromConnection(conn, buffer);
+  const request = await readFromConnection(conn, buffer);
 
   const response = router(users, request.command, request.data);
 
@@ -28,9 +28,11 @@ const handler = async (users, conn) => {
 const startCentral = async () => {
   const listener = Deno.listen({ hostname: "127.0.0.1", port: 8000 });
   const users = {};
+  const data = await Deno.readFile("./paragraphs.json");
+  const paragrapghs = JSON.parse(decode(data)).paragrapghs;
 
   for await (const conn of listener) {
-    await handler(users, conn);
+    await handler(users, paragrapghs, conn);
   }
 };
 
