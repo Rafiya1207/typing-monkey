@@ -34,6 +34,6 @@ const getRandomNumber = (min, max) => {
 };
 
 export const fetchPara = (paragrapghs) => {
-  const randomNumber = getRandomNumber(0, paragrapghs.length);
-  return createSuccessResponse(paragrapghs[randomNumber]);
+  const randomId = getRandomNumber(1, paragrapghs.length);
+  return createSuccessResponse(paragrapghs.paragrapghs[randomId]);
 };

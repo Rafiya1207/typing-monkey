@@ -31,10 +31,13 @@ const startCentral = async () => {
   const listener = Deno.listen({ hostname: "127.0.0.1", port: 8000 });
   const users = {};
   const data = await Deno.readFile("./paragraphs.json");
-  const paragrapghs = JSON.parse(decode(data)).paragrapghs;
+  const paragrapghs = JSON.parse(decode(data));
 
   for await (const conn of listener) {
-    await handler(users, paragrapghs, conn);
+    await handler(users, {
+      paragrapghs,
+      length: Object.keys(paragrapghs).length,
+    }, conn);
   }
 };
 
