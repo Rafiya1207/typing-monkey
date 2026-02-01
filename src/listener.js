@@ -1,4 +1,4 @@
-import { createUser } from "./api.js";
+import { createUser, fetchPara } from "./api.js";
 
 const decode = (data) => new TextDecoder().decode(data);
 const encode = (data) => new TextEncoder().encode(data);
@@ -9,18 +9,20 @@ const readFromConnection = async (conn, buffer) => {
   return await JSON.parse(decode(buffer.slice(0, bytes)));
 };
 
-const router = (users, command, args) => {
+const router = (users, paragrapghs, command, args) => {
   switch (command) {
     case "CREATE":
       return createUser(users, args);
+    case "FETCH_PARAGRAPGH":
+      return fetchPara(paragrapghs);
   }
 };
 
-const handler = async (users, conn) => {
+const handler = async (users, paragrapghs, conn) => {
   const buffer = new Uint8Array(1024);
   const request = await readFromConnection(conn, buffer);
 
-  const response = router(users, request.command, request.data);
+  const response = router(users, paragrapghs, request.command, request.data);
 
   await conn.write(encode(JSON.stringify(response)));
 };
