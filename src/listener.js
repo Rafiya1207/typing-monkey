@@ -1,4 +1,4 @@
-import { addCredentials, addUser, fetchPara } from "./api.js";
+import { addCredentials, addUser, fetchPara, fetchUsers } from "./api.js";
 
 const decode = (data) => new TextDecoder().decode(data);
 const encode = (data) => new TextEncoder().encode(data);
@@ -17,6 +17,8 @@ const router = (usersCredentials, users, paragraphs, command, args) => {
       return fetchPara(paragraphs);
     case "CREATE_USER":
       return addUser(users, args);
+    case "FETCH_USERS":
+      return fetchUsers(users);
   }
 };
 
