@@ -1,19 +1,19 @@
 import { beforeEach, describe, it } from "@std/testing/bdd";
 import { assertEquals } from "@std/assert";
-import { createUser } from "../src/api.js";
+import { addCredentials, addUser } from "../src/api.js";
 
 describe("typing-monkey", () => {
-  describe("createUser", () => {
-    let users;
-    beforeEach(() => users = {});
+  describe("addUserCredentials", () => {
+    let usersCredentials;
+    beforeEach(() => usersCredentials = {});
 
-    it("create user successsfully", () => {
+    it("add user credentials successsfully", () => {
       const request = {
         userName: "someone",
         password: "12345",
         userId: "someone123",
       };
-      assertEquals(createUser(users, request), {
+      assertEquals(addCredentials(usersCredentials, request), {
         success: true,
         body: {
           userId: "someone123",
@@ -21,7 +21,7 @@ describe("typing-monkey", () => {
         },
         error: {},
       });
-      assertEquals(users, {
+      assertEquals(usersCredentials, {
         "someone123": { userName: "someone", password: "12345" },
       });
     });
@@ -31,7 +31,7 @@ describe("typing-monkey", () => {
         password: "12345",
         userId: "someone123",
       };
-      assertEquals(createUser(users, request), {
+      assertEquals(addCredentials(usersCredentials, request), {
         success: true,
         body: {
           userId: "someone123",
@@ -39,10 +39,10 @@ describe("typing-monkey", () => {
         },
         error: {},
       });
-      assertEquals(users, {
+      assertEquals(usersCredentials, {
         "someone123": { userName: "someone", password: "12345" },
       });
-      assertEquals(createUser(users, request), {
+      assertEquals(addCredentials(usersCredentials, request), {
         success: false,
         body: {},
         error: {
@@ -50,8 +50,34 @@ describe("typing-monkey", () => {
           errorMessage: `Error: userId ${request.userId} already exist`,
         },
       });
-      assertEquals(users, {
+      assertEquals(usersCredentials, {
         "someone123": { userName: "someone", password: "12345" },
+      });
+    });
+  });
+
+  describe("addUser", () => {
+    let users;
+    beforeEach(() => users = {});
+
+    it("create user successfully", () => {
+      const data = {
+        userId: "123",
+        userName: "someone",
+      };
+
+      assertEquals(addUser(users, data), {
+        success: true,
+        body: {
+          "userId": "123",
+          "userName": "someone",
+          "stats": {
+            "grossWPM": 0,
+            "rawWPM": 0,
+            "accuracy": 0,
+          },
+        },
+        error: {},
       });
     });
   });

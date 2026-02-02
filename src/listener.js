@@ -1,4 +1,4 @@
-import { createUser, fetchPara } from "./api.js";
+import { addCredentials, fetchPara } from "./api.js";
 
 const decode = (data) => new TextDecoder().decode(data);
 const encode = (data) => new TextEncoder().encode(data);
@@ -9,34 +9,34 @@ const readFromConnection = async (conn, buffer) => {
   return await JSON.parse(decode(buffer.slice(0, bytes)));
 };
 
-const router = (users, paragrapghs, command, args) => {
+const router = (usersCredentials, paragraphs, command, args) => {
   switch (command) {
     case "CREATE":
-      return createUser(users, args);
+      return addCredentials(usersCredentials, args);
     case "FETCH_PARAGRAPGH":
-      return fetchPara(paragrapghs);
+      return fetchPara(paragraphs);
   }
 };
 
-const handler = async (users, paragrapghs, conn) => {
+const handler = async (usersCredentials, paragraphs, conn) => {
   const buffer = new Uint8Array(1024);
   const request = await readFromConnection(conn, buffer);
 
-  const response = router(users, paragrapghs, request.command, request.data);
+  const response = router(usersCredentials, paragraphs, request.command, request.data);
 
   await conn.write(encode(JSON.stringify(response)));
 };
 
 const startCentral = async () => {
   const listener = Deno.listen({ hostname: "127.0.0.1", port: 8000 });
-  const users = {};
+  const usersCredentials = {};
   const data = await Deno.readFile("./paragraphs.json");
-  const paragrapghs = JSON.parse(decode(data));
+  const paragraphs = JSON.parse(decode(data));
 
   for await (const conn of listener) {
-    await handler(users, {
-      paragrapghs,
-      length: Object.keys(paragrapghs).length,
+    await handler(usersCredentials, {
+      paragraphs,
+      length: Object.keys(paragraphs).length,
     }, conn);
   }
 };
