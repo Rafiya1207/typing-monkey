@@ -1,6 +1,11 @@
 import { beforeEach, describe, it } from "@std/testing/bdd";
 import { assertEquals } from "@std/assert";
-import { addCredentials, addUser, fetchUsers } from "../src/api.js";
+import {
+  addCredentials,
+  addUser,
+  fetchUsers,
+  updateUserStats,
+} from "../src/api.js";
 
 describe("typing-monkey", () => {
   describe("addUserCredentials", () => {
@@ -80,7 +85,6 @@ describe("typing-monkey", () => {
         error: {},
       });
     });
-
     it("userId is undefined", () => {
       assertEquals(addUser(users, { userName: "someone" }), {
         success: false,
@@ -133,6 +137,59 @@ describe("typing-monkey", () => {
         body: users,
         error: {},
       });
+    });
+  });
+
+  describe("update user", () => {
+    let users;
+    beforeEach(() => users = {});
+
+    it("updates user stats", () => {
+      addUser(users, { userName: "abc", userId: "abc123" });
+      addUser(users, { userName: "someone", userId: "someone123" });
+      const userId = "abc123";
+      const data = {
+        stats: {
+          "grossWPM": 1,
+          "rawWPM": 1,
+          "accuracy": 1,
+        },
+      };
+
+      assertEquals(updateUserStats(users, userId, data), {
+        success: true,
+        body: {
+          "userId": "abc123",
+          "userName": "abc",
+          "stats": {
+            "grossWPM": 1,
+            "rawWPM": 1,
+            "accuracy": 1,
+          },
+        },
+        error: {},
+      });
+    });
+
+    it("user doesn't exist", () => {
+      const userId = "123";
+      assertEquals(
+        updateUserStats(users, userId, {
+          stats: {
+            "grossWPM": 1,
+            "rawWPM": 1,
+            "accuracy": 1,
+          },
+        }),
+        {
+          success: false,
+          body: {},
+          error: {
+            errorCode: 12,
+            errorMessage: `Error: user ${userId} doesn't exist`,
+          },
+        },
+      );
     });
   });
 });
