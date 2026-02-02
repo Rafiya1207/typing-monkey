@@ -45,7 +45,7 @@ export const addUser = (users, data) => {
       errorMessage: `Error: userId is undefined`,
     });
   }
-  
+
   if (data.userName === undefined) {
     return createFailureResponse({
       errorCode: 11,
@@ -63,4 +63,8 @@ export const addUser = (users, data) => {
   };
 
   return createSuccessResponse({ userId: data.userId, ...users[data.userId] });
+};
+
+export const fetchUsers = (users) => {
+  return createSuccessResponse(users);
 };

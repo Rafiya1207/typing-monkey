@@ -1,6 +1,6 @@
 import { beforeEach, describe, it } from "@std/testing/bdd";
 import { assertEquals } from "@std/assert";
-import { addCredentials, addUser } from "../src/api.js";
+import { addCredentials, addUser, fetchUsers } from "../src/api.js";
 
 describe("typing-monkey", () => {
   describe("addUserCredentials", () => {
@@ -109,6 +109,29 @@ describe("typing-monkey", () => {
           errorCode: 11,
           errorMessage: `Error: userId is undefined`,
         },
+      });
+    });
+  });
+
+  describe("fetchUsers", () => {
+    let users;
+    beforeEach(() => users = {});
+
+    it("fetch users", () => {
+      addUser(users, { userName: "abc", userId: "abc123" });
+      addUser(users, { userName: "someone", userId: "someone123" });
+      assertEquals(fetchUsers(users), {
+        success: true,
+        body: users,
+        error: {},
+      });
+    });
+
+    it("users not present", () => {
+      assertEquals(fetchUsers(users), {
+        success: true,
+        body: users,
+        error: {},
       });
     });
   });
