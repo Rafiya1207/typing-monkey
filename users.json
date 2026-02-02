@@ -1,0 +1,18 @@
+{
+  "<userId>1": {
+    "userName": "abc",
+    "stats": {
+      "grossWPM": 0,
+      "rawWPM": 0,
+      "accuracy": 0
+    }
+  },
+  "<userId>2": {
+    "userName": "abc",
+    "stats": {
+      "grossWPM": 0,
+      "rawWPM": 0,
+      "accuracy": 0
+    }
+  }
+}
