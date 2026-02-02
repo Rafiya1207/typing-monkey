@@ -39,6 +39,20 @@ export const fetchPara = (paragraphs) => {
 };
 
 export const addUser = (users, data) => {
+  if (data.userId === undefined) {
+    return createFailureResponse({
+      errorCode: 11,
+      errorMessage: `Error: userId is undefined`,
+    });
+  }
+  
+  if (data.userName === undefined) {
+    return createFailureResponse({
+      errorCode: 11,
+      errorMessage: `Error: userName is undefined`,
+    });
+  }
+
   users[data.userId] = {
     userName: data.userName,
     stats: {

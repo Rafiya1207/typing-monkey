@@ -80,5 +80,36 @@ describe("typing-monkey", () => {
         error: {},
       });
     });
+
+    it("userId is undefined", () => {
+      assertEquals(addUser(users, { userName: "someone" }), {
+        success: false,
+        body: {},
+        error: {
+          errorCode: 11,
+          errorMessage: `Error: userId is undefined`,
+        },
+      });
+    });
+    it("userName is undefined", () => {
+      assertEquals(addUser(users, { userId: "123" }), {
+        success: false,
+        body: {},
+        error: {
+          errorCode: 11,
+          errorMessage: `Error: userName is undefined`,
+        },
+      });
+    });
+    it("userId, userName are undefined", () => {
+      assertEquals(addUser(users, {}), {
+        success: false,
+        body: {},
+        error: {
+          errorCode: 11,
+          errorMessage: `Error: userId is undefined`,
+        },
+      });
+    });
   });
 });
